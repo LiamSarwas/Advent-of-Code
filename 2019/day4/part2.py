@@ -1,4 +1,4 @@
-from collections import defaultdict
+from collections import Counter
 
 def test_num(num):
     prev = num[0]
@@ -21,9 +21,7 @@ def main():
     for i in range(a, b+1):
         digits = [int(k) for k in str(i)]
         if test_num(digits):
-            counter = defaultdict(int)
-            for dig in digits:
-                counter[dig] += 1
+            counter = Counter(digits)
             for _, value in counter.items():
                 if value == 2:
                     count += 1
