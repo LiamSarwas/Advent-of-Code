@@ -53,7 +53,7 @@ class IntProcessor():
                     self.write(p1, self.instr_ptr + 1, self.memory[self.memory_ptr])
                     self.memory_ptr += 1
                 else:
-                    return -2
+                    return -2.5
                 self.instr_ptr += 2
 
             elif opcode == "04":
