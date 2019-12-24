@@ -25,8 +25,6 @@ def count_visible(ast_map, i, j):
             rel_i = i - a
             rel_j = j - b
             mult = gcd(rel_i, rel_j)
-            if mult == 0:
-                mult = 1
 
             rel_i = rel_i//mult
             rel_j = rel_j//mult
