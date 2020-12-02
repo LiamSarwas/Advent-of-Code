@@ -1,38 +1,43 @@
 from collections import Counter
-import itertools
-import math
+from typing import NamedTuple
 from pathlib import Path
 
 FILE_DIR = Path(__file__).parent
 
 
-def part_one(input_data):
-    valid = 0
-    for line in input_data:
-        letter_range, letter, password = line.split(' ')
-        lo, hi = letter_range.split('-')
-        letter = letter[0]
-        if int(lo) <= Counter(password)[letter] <= int(hi):
-            valid += 1
-    return valid
+class Password(NamedTuple):
+    lo: int
+    hi: int
+    letter: str
+    password: str
 
-def valid_letter(letter, valid_letter):
-    if letter == valid_letter:
-        return True
-    return False
 
-def part_two(input_data):
-    valid = 0
-    for line in input_data:
-        letter_range, letter, password = line.split(' ')
-        letter = letter[0]
-        lo, hi = letter_range.split('-')
-        if valid_letter(password[int(lo)-1], letter) != valid_letter(password[int(hi)-1], letter):
-            valid += 1
-    return valid
+def part_one(passwords):
+    return sum(
+        [
+            (password.lo <= Counter(password.password)[password.letter] <= password.hi)
+            for password in passwords
+        ]
+    )
+
+
+def part_two(passwords):
+    return sum(
+        [
+            (password.password[password.lo - 1] == password.letter)
+            != (password.password[password.hi - 1] == password.letter)
+            for password in passwords
+        ]
+    )
 
 
 if __name__ == "__main__":
-    DATA = (FILE_DIR / "input" / "day2.txt").read_text().strip().split('\n')
-    print(part_one(DATA))
-    print(part_two(DATA))
+    DATA = (FILE_DIR / "input" / "day2.txt").read_text().strip().split("\n")
+    passwords = []
+    for line in DATA:
+        letter_range, letter, password = line.split(" ")
+        lo, hi = letter_range.split("-")
+        letter = letter[0]
+        passwords.append(Password(int(lo), int(hi), letter, password))
+    print(part_one(passwords))
+    print(part_two(passwords))
